@@ -26,7 +26,7 @@ async function fetchAQIData(lat, lon) {
 
 async function nextFiveDays(lat, lon) {
 
-    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=6a7d1b6b6e589d8e09e5d873d8c14635&units=metric`;
+    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
     try {
         const response = await fetch(apiUrl);
         if (!response.ok) {
@@ -73,7 +73,7 @@ async function nextFiveDays(lat, lon) {
 }
 
 async function todayTemps(lat, lon) {
-    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=6a7d1b6b6e589d8e09e5d873d8c14635&units=metric`;
+    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
 
     try {
         const response = await fetch(apiUrl);
@@ -114,7 +114,7 @@ document.getElementById('searchBtn').addEventListener('click',async ()=>{
 async function fetchData() {
 
     let cityName = document.getElementsByClassName('inputfield')[0].value;
-    let requestData = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=6a7d1b6b6e589d8e09e5d873d8c14635&units=metric`)
+    let requestData = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric`)
     let formattedData = await requestData.json();
     console.log("Formatted Data: ", formattedData);
 
