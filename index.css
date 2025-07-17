@@ -6,10 +6,8 @@ body {
     color: white;
 }
 
-
 .searchBar {
     height: 10vh;
-    /* background: black; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,7 +41,6 @@ body {
     cursor: pointer;
 }
 
-
 .mainContentParentDiv {
     height: 90vh;
     flex-direction: row;
@@ -76,7 +73,6 @@ body {
 #cityTemp {
     font-size: x-large;
 }
-
 
 .rightDiv {
     width: 70%;
@@ -113,10 +109,19 @@ body {
     border-radius: 15px;
 }
 
+/* ✅ Updated Today Section Styles */
+
+.todayTempParentDiv {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
 .todayTemp {
     background: rgba(212, 212, 212, 0.4);
-    width: fit-content;
     padding: 15px;
+    min-width: 100px;
     border-radius: 15px;
     backdrop-filter: blur(15px);
     text-align: center;
@@ -125,9 +130,22 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
 }
 
+.todayTemp:hover {
+    transform: scale(1.05);
+    background-color: rgba(255, 255, 255, 0.25);
+}
 
+.todayTemp h5,
+.todayTemp h6 {
+    margin: 0;
+    color: white;
+}
+
+/* ✅ Mobile Responsive Styles */
 
 @media only screen and (max-width:767px) {
     .leftDiv {
@@ -153,7 +171,6 @@ body {
         width: 100%;
     }
 
-
     .searchBarParentDiv {
         width: 85%;
         height: fit-content;
@@ -161,19 +178,14 @@ body {
     }
 
     .rowOne {
-        /* flex-direction: column; */
         flex-wrap: wrap;
         width: 85%;
         margin: auto;
         height: 45vh;
     }
 
-
     .rowTwo {
         flex-direction: column;
-    }
-
-    .rowTwo {
         gap: 10px;
         height: 30vh;
     }
@@ -193,10 +205,13 @@ body {
 
     .todayTempParentDiv {
         width: 100%;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        overflow-x: auto;
         margin: auto;
         gap: 15px;
+        padding-bottom: 10px;
     }
+
     .extraMetric {
         background: rgba(212, 212, 212, 0.4);
         padding: 5% 2%;
