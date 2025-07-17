@@ -80,34 +80,53 @@ async function todayTemps(lat, lon) {
         if (!response.ok) {
             throw new Error("Failed to fetch weather data");
         }
+
         const data = await response.json();
 
-        let todayDate = new Date().toISOString().split("T")[0]; // Get today's date (YYYY-MM-DD)
-        let todayForecasts = data.list.filter(item => item.dt_txt.startsWith(todayDate)); // Get today's data
+        // Get today's local date
+        let now = new Date();
+        let todayDate = now.getFullYear() + "-" +
+            String(now.getMonth() + 1).padStart(2, '0') + "-" +
+            String(now.getDate()).padStart(2, '0');
 
-        // Select specific time intervals (e.g., every 3 hours from the API)
-        let selectedHours = todayForecasts.slice(0, 6); // Get first 6 hourly forecasts
+        // Filter only today's forecasts
+        let todayForecasts = data.list.filter(item => item.dt_txt.startsWith(todayDate));
+
+        // Get the next 6 available forecast intervals for today
+        let selectedHours = todayForecasts.slice(0, 6);
+
+        console.log("Full forecast list:", data.list);
+        console.log("Today's date:", todayDate);
+        console.log("Filtered todayForecasts:", todayForecasts);
+        console.log("Selected time blocks:", selectedHours);
 
         let todayHtml = "";
-        selectedHours.forEach(item => {
-            let time = new Date(item.dt_txt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }); // Format time
-            let temp = item.main.temp.toFixed(1); // Round temperature
-            let icon = item.weather[0].icon; // Weather icon
+        if (selectedHours.length === 0) {
+            todayHtml = "<p>No hourly data available for today.</p>";
+        } else {
+            selectedHours.forEach(item => {
+                let time = new Date(item.dt_txt).toLocaleTimeString('en-US', {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                });
+                let temp = item.main.temp.toFixed(1);
 
-            todayHtml += `
-                        <div class="todayTemp">
-                            <h6 class="m-0">${time}</h6>
-                            <img src="./cloudy.png" alt="" width="35px">
-                            <h5>${temp}&deg;C</h5>
-                        </div>
-                    `;
-        });
+                todayHtml += `
+                    <div class="todayTemp text-center">
+                        <h6 class="m-0">${time}</h6>
+                        <img src="./cloudy.png" alt="" width="35px">
+                        <h5 class="m-0">${temp}&deg;C</h5>
+                    </div>
+                `;
+            });
+        }
 
         document.getElementById("todayTempContainer").innerHTML = todayHtml;
 
     } catch (error) {
-        console.error(error);
-        alert("Failed to retrieve weather data. Please check your API key.");
+        console.error("Error in todayTemps():", error);
+        alert("Failed to retrieve hourly weather data. Please check your API key and network.");
     }
 }
 document.getElementById('searchBtn').addEventListener('click',async ()=>{
